@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Name</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #nameForm="ngForm" (ngSubmit)="addName(nameForm.value)">
+    
+    <ion-list>
+
+      <ion-item>
+        <ion-label floating>Name</ion-label>
+        <ion-input type="text" name="name" [(ngModel)]="name" value=""></ion-input>
+      </ion-item>
+
+    </ion-list>
+
+    <div padding>
+      <button ion-button color="primary" type="submit">Add</button>
+    </div>
+
+  </form>
+</ion-content>

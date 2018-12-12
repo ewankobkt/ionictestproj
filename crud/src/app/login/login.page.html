@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+
+    <ion-card *ngFor="let name of data?.test">
+      <ion-card-content>
+        <p>{{name.name}}</p>
+        <div padding>
+          <form #nameForm="ngForm" (ngSubmit)="updateName(nameForm.value)">
+            <ion-input type="hidden" name="name" [(ngModel)]="name" value="{{name.name}}"></ion-input>
+            <ion-input type="hidden" name="id" [(ngModel)]="id" value="{{name.id}}"></ion-input>
+
+            <div padding>
+              <button ion-button color="primary" type="submit">Update</button>
+            </div>
+          </form>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </ion-list>
+</ion-content>

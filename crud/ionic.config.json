@@ -1,0 +1,13 @@
+{
+  "name": "crud",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular",
+  "proxies": [
+    {
+      "path": "/app",
+      "proxyUrl": "http://citestproj"
+    }
+  ]
+}
