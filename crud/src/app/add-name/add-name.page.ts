@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Injectable, NgZone } from '@angular/core';
 import { DatanameService } from '../dataname.service';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { NavController, Events } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-name',
@@ -15,7 +15,8 @@ export class AddNamePage implements OnInit {
   constructor(
     private datanameService: DatanameService,
     private router: Router,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private event: Events
   ) { }
 
   ngOnInit() {
@@ -25,10 +26,9 @@ export class AddNamePage implements OnInit {
     this.datanameService
       .postData('ajaxAdd', formValue)
       .subscribe(data => {
-        // data = JSON.parse(data);
         if (data['result']) {
-          this.datanameService.updateListAdd(data);
           this.name = '';
+          this.datanameService.eventCreator('data-change');
           return this.navCtrl.navigateRoot('');
         } else {
           alert(data['message']);

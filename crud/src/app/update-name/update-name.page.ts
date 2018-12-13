@@ -25,10 +25,11 @@ export class UpdateNamePage implements OnInit {
     this.datanameService
       .postData('ajaxUpdate', formValue)
       .subscribe(data => {
-        // data = JSON.parse(data);
         if (data['result']) {
-          return this.navCtrl.navigateRoot('').then(window.location.reload);
-          // .then(data=>{this.updateView()});
+          this.name = '';
+          this.id = '';
+          this.datanameService.eventCreator('data-change');
+          return this.navCtrl.navigateRoot('');
         } else {
           alert(data['message']);
         }

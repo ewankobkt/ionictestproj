@@ -21,7 +21,8 @@
         <p>{{name.name}}</p>
 
         <div padding>
-          <button ion-button color="primary" type="submit" (click)="updateName(name)">Update</button>
+          <button ion-button type="submit" (click)="updateName(name)">Update</button>
+          <button ion-button type="submit" (click)="deleteName(name)">Delete</button>
         </div>
       </ion-card-content>
     </ion-card>

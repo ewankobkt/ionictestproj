@@ -1,20 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Component } from '@angular/core';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
 import { RequestOptions, Request, RequestMethod, Headers } from '@angular/http';
+import { Events } from '@ionic/angular';
 
 const WEB = environment.web;
 
 @Injectable({
   providedIn: 'root'
 })
-export class DatanameService {
 
+export class DatanameService {
+  id: any;
   name: any;
   data: any;
   data_html: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private event: Events
+  ) { }
 
   getData(url) {
   	return this.http.get(`${WEB}/${url}`);
@@ -22,7 +27,10 @@ export class DatanameService {
 
   postData(url, name) {
     let form = new FormData();
-    form.append('name', name.name);
+
+    if (name.name != 'undefined') {
+      form.append('name', name.name);
+    }
 
     if (name.id != 'undefined') {
       form.append('id', name.id);
@@ -37,16 +45,7 @@ export class DatanameService {
     return this.http.post(`${WEB}/${url}`, form, { headers: header });
   }
 
-  updateListAdd(data) {
-    var str = '<ion-card>' + 
-      '<ion-card-content>' +
-      '<p>' + data['name'] + '</p>' +
-      '<div padding>' +
-      '<button ion-button color="primary" type="submit" (click)="updateName(name)">Update</button>' +
-      '</div>' +
-      '</ion-card-content>' +
-      '</ion-card>';
-    var list = document.getElementById('name-list');
-    list.innerHTML = str + list.innerHTML;
+  eventCreator(eventType) {
+    this.event.publish(eventType);
   }
 }
