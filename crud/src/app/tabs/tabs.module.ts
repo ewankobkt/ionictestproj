@@ -12,6 +12,7 @@ import { Tab2PageModule } from '../tab2/tab2.module';
 import { Tab3PageModule } from '../tab3/tab3.module';
 import { LoginPageModule } from '../login/login.module';
 import { AddNamePageModule } from '../add-name/add-name.module';
+import { UpdateNamePageModule } from '../update-name/update-name.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { AddNamePageModule } from '../add-name/add-name.module';
     Tab2PageModule,
     Tab3PageModule,
     LoginPageModule,
-    AddNamePageModule
+    AddNamePageModule,
+    UpdateNamePageModule
   ],
   declarations: [TabsPage]
 })

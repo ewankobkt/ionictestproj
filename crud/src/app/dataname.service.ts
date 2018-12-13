@@ -12,6 +12,7 @@ export class DatanameService {
 
   name: any;
   data: any;
+  data_html: any;
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,10 @@ export class DatanameService {
     let form = new FormData();
     form.append('name', name.name);
 
+    if (name.id != 'undefined') {
+      form.append('id', name.id);
+    }
+
     var header = new HttpHeaders();
 
     header.append('Access-Control-Allow-Origin' , '*');
@@ -30,5 +35,18 @@ export class DatanameService {
     header.append('Content-type', 'application/x-www-form-urlencoded');
 
     return this.http.post(`${WEB}/${url}`, form, { headers: header });
+  }
+
+  updateListAdd(data) {
+    var str = '<ion-card>' + 
+      '<ion-card-content>' +
+      '<p>' + data['name'] + '</p>' +
+      '<div padding>' +
+      '<button ion-button color="primary" type="submit" (click)="updateName(name)">Update</button>' +
+      '</div>' +
+      '</ion-card-content>' +
+      '</ion-card>';
+    var list = document.getElementById('name-list');
+    list.innerHTML = str + list.innerHTML;
   }
 }

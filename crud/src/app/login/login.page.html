@@ -5,20 +5,23 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
+  <ion-refresher id="refresh-page" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list id="name-list">
 
     <ion-card *ngFor="let name of data?.test">
       <ion-card-content>
         <p>{{name.name}}</p>
-        <div padding>
-          <form #nameForm="ngForm" (ngSubmit)="updateName(nameForm.value)">
-            <ion-input type="hidden" name="name" [(ngModel)]="name" value="{{name.name}}"></ion-input>
-            <ion-input type="hidden" name="id" [(ngModel)]="id" value="{{name.id}}"></ion-input>
 
-            <div padding>
-              <button ion-button color="primary" type="submit">Update</button>
-            </div>
-          </form>
+        <div padding>
+          <button ion-button color="primary" type="submit" (click)="updateName(name)">Update</button>
         </div>
       </ion-card-content>
     </ion-card>

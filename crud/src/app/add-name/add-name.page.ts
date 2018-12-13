@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Injectable, NgZone } from '@angular/core';
 import { DatanameService } from '../dataname.service';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -12,7 +12,11 @@ export class AddNamePage implements OnInit {
   name: any;
   data: any;
 
-  constructor(private datanameService: DatanameService, private router: Router, private navCtrl: NavController) { }
+  constructor(
+    private datanameService: DatanameService,
+    private router: Router,
+    private navCtrl: NavController
+  ) { }
 
   ngOnInit() {
   }
@@ -21,11 +25,13 @@ export class AddNamePage implements OnInit {
     this.datanameService
       .postData('ajaxAdd', formValue)
       .subscribe(data => {
-        if (data.result) {
-          return this.navCtrl.navigateRoot('').then(window.location.reload);
-          // .then(data=>{this.updateView()});
+        // data = JSON.parse(data);
+        if (data['result']) {
+          this.datanameService.updateListAdd(data);
+          this.name = '';
+          return this.navCtrl.navigateRoot('');
         } else {
-          alert(data.message);
+          alert(data['message']);
         }
       });
   }
