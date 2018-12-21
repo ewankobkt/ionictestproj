@@ -1,22 +1,24 @@
-import { Injectable, Component } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Events } from '@ionic/angular';
 import { environment } from '../environments/environment';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
-import { RequestOptions, Request, RequestMethod, Headers } from '@angular/http';
-import { Events } from '@ionic/angular';
+import { AppRoutingPreloaderService } from './app-routing-preloader.service';
 
 const WEB = environment.web;
 
 @Injectable({
   providedIn: 'root'
 })
+export class DatahandlerService {
 
-export class DatanameService {
   name: any;
   data: any;
 
   constructor(
     private http: HttpClient,
-    private event: Events
+    private event: Events,
+    private zone: NgZone,
+    private routingService: AppRoutingPreloaderService
   ) { }
 
   getData(url) {
@@ -26,12 +28,16 @@ export class DatanameService {
   postData(url, name) {
     let form = new FormData();
 
-    if (name.name != 'undefined') {
+    if (typeof name.name != 'undefined') {
       form.append('name', name.name);
     }
 
-    if (name.id != 'undefined') {
+    if (typeof name.id != 'undefined') {
       form.append('id', name.id);
+    }
+
+    if (typeof name.password != 'undefined') {
+      form.append('password', name.password);
     }
 
     var header = new HttpHeaders();
@@ -43,7 +49,12 @@ export class DatanameService {
     return this.http.post(`${WEB}/${url}`, form, { headers: header });
   }
 
-  eventCreator(eventType) {
-    this.event.publish(eventType);
+  async loadModule(page) {
+    await this.routingService.preloadRoute(page);
+  }
+
+  eventCreator(page, eventType) {
+    this.loadModule(page);
+    this.event.publish(page, eventType);
   }
 }

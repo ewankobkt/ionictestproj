@@ -65,12 +65,11 @@ export class LoginPage implements OnInit {
 
   updateName(name) {
     this.datanameService.data = name;
-    this.router.navigate(['/update-name']);
+    return this.navctrl.navigateForward('/update-name');
   }
 
   deleteName(formValue: any) {
     var del = confirm('Are you sure you want to delete this?');
-    // let self = this;
 
     if (del) {
       this.datanameService
