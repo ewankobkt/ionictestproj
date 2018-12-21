@@ -20,12 +20,12 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: './login/login.module#LoginPageModule',
-    data: {preload: true}
+    data: { preload: true }
   },
   {
     path: 'profile',
     loadChildren: './profile/profile.module#ProfilePageModule',
-    data: {preload: true}
+    data: { preload: true }
   }
 ];
 

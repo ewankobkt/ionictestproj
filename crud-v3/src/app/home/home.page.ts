@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { DatahandlerService } from '../datahandler.service';
+import { AppRoutingPreloaderService } from '../app-routing-preloader.service';
 import { Router } from '@angular/router';
 import { AlertController, NavController, Events } from '@ionic/angular';
 
@@ -18,7 +19,8 @@ export class HomePage implements OnInit {
     private alert: AlertController,
     private nav: NavController,
     private zone: NgZone,
-    private event: Events
+    private event: Events,
+    private routingService: AppRoutingPreloaderService
   ) {
     this.event.subscribe('home', (type) => {
       console.log(type);
@@ -40,6 +42,11 @@ export class HomePage implements OnInit {
       this.datahandler.eventCreator('login', 'not logged');
       return this.nav.navigateForward('/login');
     }
+  }
+
+  async ionViewDidEnter() {
+    await this.routingService.preloadRoute('profile');
+    await this.routingService.preloadRoute('login');
   }
 
   async login() {

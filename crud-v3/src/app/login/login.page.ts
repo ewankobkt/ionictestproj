@@ -1,7 +1,9 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { DatahandlerService } from '../datahandler.service';
+import { AppRoutingPreloaderService } from '../app-routing-preloader.service';
 import { Router } from '@angular/router';
 import { NavController, LoadingController, Events, AlertController } from '@ionic/angular';
+import { Broadcaster } from '@ionic-native/broadcaster';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,8 @@ export class LoginPage implements OnInit {
     private nav: NavController,
     private load: LoadingController,
     private zone: NgZone,
-    private event: Events
+    private event: Events,
+    private routingService: AppRoutingPreloaderService
   ) {
     this.event.subscribe('login', (type) => {
       console.log(type);
@@ -42,6 +45,10 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async ionViewDidEnter() {
+    await this.routingService.preloadRoute('home');
+  }
+
   login(form: any) {
     if ((form.name == null || form.name == '') || (form.password == null || form.password == '')) {
       return this.datahandler.eventCreator('login', 'login failed');
@@ -57,8 +64,8 @@ export class LoginPage implements OnInit {
           this.password = '';
           this.datahandler.data = form;
           this.zone.run(() => {
-            this.datahandler.eventCreator('home', 'login success');
-            return this.nav.navigateForward('/home');
+            this.nav.navigateForward('/home');
+            return this.datahandler.eventCreator('home', 'login success');
           });
         } else {
           return this.loginFail();
