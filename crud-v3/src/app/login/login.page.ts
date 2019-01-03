@@ -3,7 +3,6 @@ import { DatahandlerService } from '../datahandler.service';
 import { AppRoutingPreloaderService } from '../app-routing-preloader.service';
 import { Router } from '@angular/router';
 import { NavController, LoadingController, Events, AlertController } from '@ionic/angular';
-import { Broadcaster } from '@ionic-native/broadcaster';
 
 @Component({
   selector: 'app-login',
@@ -27,31 +26,42 @@ export class LoginPage implements OnInit {
   ) {
     this.event.subscribe('login', (type) => {
       console.log(type);
-      // if (type == 'not logged') {
-      //   this.notLogged();
-      // } else if (type == 'logout') {
-      //   this.logoutLoad();
-      // } else {
-      //   this.loginFail();
-      // }
+      if (this.datahandler.eventCtr == 0) {
+        if (type == 'not logged') {
+          this.notLogged();
+        } else if (type == 'logout') {
+          this.logoutLoad();
+        } else {
+          this.loginFail();
+        }
+
+        this.datahandler.eventCtr = 1;
+      }
     });
+
+    if (this.datahandler.eventCaller !== undefined) {
+      this.datahandler.eventCreator(this.datahandler.eventCaller[0], this.datahandler.eventCaller[1]);
+      console.log(this.datahandler.eventCaller);
+    }
   }
 
   ngOnInit() {
     if ((window.localStorage.getItem('user.name') !== null)
       && (window.localStorage.getItem('user.password') !== null)) {
       this.nav.navigateForward('/home');
-      this.datahandler.eventCreator('home', 'already login');
+      this.datahandler.eventCaller = ['home', 'already login'];
+      // this.datahandler.eventCreator('home', 'already login');
     }
   }
 
-  async ionViewDidEnter() {
-    await this.routingService.preloadRoute('home');
+  ngOnDestroy() {
+    console.log('destroy login');
   }
 
   login(form: any) {
     if ((form.name == null || form.name == '') || (form.password == null || form.password == '')) {
-      return this.datahandler.eventCreator('login', 'login failed');
+      // return this.datahandler.eventCreator('login', 'login failed');
+      return this.datahandler.eventCaller = ['login', 'login failed'];
     }
 
     this.datahandler
@@ -63,12 +73,12 @@ export class LoginPage implements OnInit {
           this.name = '';
           this.password = '';
           this.datahandler.data = form;
-          this.zone.run(() => {
-            this.nav.navigateForward('/home');
-            return this.datahandler.eventCreator('home', 'login success');
-          });
+          // this.datahandler.eventCaller = ['home', 'login success'];
+          this.datahandler.eventCreator('home', 'login success');
+          return this.nav.navigateForward('/home');
         } else {
-          return this.loginFail();
+          console.log('asd');
+          return this.datahandler.eventCreator('login', 'login failed');
         }
       });
   }

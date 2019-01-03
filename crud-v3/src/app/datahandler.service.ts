@@ -13,6 +13,9 @@ export class DatahandlerService {
 
   name: any;
   data: any;
+  update: any = [];
+  eventCaller: any;
+  eventCtr: any = 0;
 
   constructor(
     private http: HttpClient,
@@ -54,7 +57,13 @@ export class DatahandlerService {
   }
 
   eventCreator(page, eventType) {
-    this.loadModule(page);
+    console.log(page);
+    this.eventCtr = 0;
     this.event.publish(page, eventType);
+    this.eventCaller = undefined;
+  }
+
+  getName() {
+    this.event.publish('profile');
   }
 }

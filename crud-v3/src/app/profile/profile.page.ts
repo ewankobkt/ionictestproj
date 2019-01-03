@@ -17,22 +17,23 @@ export class ProfilePage implements OnInit {
     private datahandler: DatahandlerService,
     private router: Router,
     private alert: AlertController,
-    private nav: NavController
-  ) { }
+    private nav: NavController,
+    private event: Events
+  ) {
+    this.event.subscribe('profile', (type) => {
+      this.name = window.localStorage.getItem('user.name');
+      this.password = window.localStorage.getItem('user.password');
+    });
+  }
 
   ngOnInit() {
     if ((window.localStorage.getItem('user.name') === null)
       && (window.localStorage.getItem('user.password') === null)) {
-      this.nav.navigateForward('/login');
-      return this.datahandler.eventCreator('login', 'not logged');
+      this.datahandler.eventCaller = ['login', 'not logged'];
+      return this.nav.navigateForward('/login');
+    } else {
+      this.datahandler.getName();
     }
-
-    // if (this.datahandler.page !== 'undefined' && this.datahandler.page == 'profile') {
-    //   this.datahandler.eventCreator(this.datahandler.page, this.datahandler.eventType);
-    // }
-
-    this.name = window.localStorage.getItem('user.name');
-    this.password = window.localStorage.getItem('user.password');
   }
 
   updateProfile(formValue: any) {

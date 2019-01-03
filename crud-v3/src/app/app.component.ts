@@ -50,7 +50,11 @@ export class AppComponent {
   logout() {
     window.localStorage.removeItem('user.name');
     window.localStorage.removeItem('user.password');
-    this.datahandler.eventCreator('login', 'logout');
+    this.datahandler.eventCaller = ['login', 'logout'];
     return this.nav.navigateForward('/login');
+  }
+
+  profile() {
+    return this.nav.navigateForward('/profile');
   }
 }

@@ -23,15 +23,28 @@ export class HomePage implements OnInit {
     private routingService: AppRoutingPreloaderService
   ) {
     this.event.subscribe('home', (type) => {
-      console.log(type);
-      // if (type == 'login success') {
-      //   this.login();
-      // } else if (type == 'already login') {
-      //   this.alreadyLogged();
-      // } else {
-      //   this.updated();
-      // }
+      if (this.datahandler.eventCtr == 0) {
+        if (type == 'login success') {
+          this.login();
+        } else if (type == 'already login') {
+          this.alreadyLogged();
+        } else {
+          this.updated();
+        }
+
+        this.datahandler.eventCtr = 1;
+      }
     });
+    
+    if (this.datahandler.eventCaller !== undefined) {
+      this.datahandler.eventCreator(this.datahandler.eventCaller[0], this.datahandler.eventCaller[1]);
+    }
+
+    if (this.datahandler.eventCtr == 0 && this.datahandler.eventCaller !== undefined) {
+      this.datahandler.eventCreator('home', 'login success');
+    }
+
+    console.log(this.datahandler.eventCaller);
   }
 
   ngOnInit() {
@@ -39,14 +52,14 @@ export class HomePage implements OnInit {
       && (window.localStorage.getItem('user.password') === null)) {
       // this.datahandler.page = 'login';
       // this.datahandler.eventType = 'not logged';
-      this.datahandler.eventCreator('login', 'not logged');
+      // this.datahandler.eventCreator('login', 'not logged');
+      this.datahandler.eventCaller = ['login', 'not logged'];
       return this.nav.navigateForward('/login');
     }
   }
 
-  async ionViewDidEnter() {
-    await this.routingService.preloadRoute('profile');
-    await this.routingService.preloadRoute('login');
+  ngOnDestroy() {
+    console.log('destroy home');
   }
 
   async login() {
