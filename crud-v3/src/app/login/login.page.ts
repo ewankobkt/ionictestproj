@@ -34,23 +34,6 @@ export class LoginPage implements OnInit {
     }
   }
 
-  ngOnDestroy() {
-    console.log('destroy login');
-  }
-
-  // eventSubscribe() {
-  //   this.event.subscribe('login', (type) => {
-  //     console.log('sub login');
-  //     if (type == 'not logged') {
-  //       this.notLogged();
-  //     } else if (type == 'logout') {
-  //       this.logoutLoad();
-  //     } else {
-  //       this.loginFail();
-  //     }
-  //   });
-  // }
-
   eventUnsubscribe() {
     console.log('unsub login');
     this.event.unsubscribe('login');
@@ -77,60 +60,4 @@ export class LoginPage implements OnInit {
         }
       });
   }
-
-  // async logoutLoad() {
-  //   // this.eventUnsubscribe();
-
-  //   const logoutLoad = await this.load.create({
-  //     message: 'Logging out',
-  //     duration: 2000
-  //   });
-
-  //   await logoutLoad.present();
-
-  //   var self = this;
-
-  //   window.setTimeout(function () {
-  //     return self.logout();
-  //   }, 2000);
-  // }
-
-  // async notLogged() {
-  //   // this.eventUnsubscribe();
-
-  //   const notLogged = await this.alert.create({
-  //     header: 'Message',
-  //     // subHeader: 'Subtitle',
-  //     message: 'You are not logged in.',
-  //     buttons: ['OK']
-  //   });
-
-  //   await notLogged.present();
-  // }
-
-  // async logout() {
-  //   // this.eventUnsubscribe();
-
-  //   const logout = await this.alert.create({
-  //     header: 'Message',
-  //     // subHeader: 'Subtitle',
-  //     message: 'You logged out successfully.',
-  //     buttons: ['OK']
-  //   });
-
-  //   await logout.present();
-  // }
-
-  // async loginFail() {
-  //   // this.eventUnsubscribe();
-
-  //   const loginFail = await this.alert.create({
-  //     header: 'Alert',
-  //     // subHeader: 'Subtitle',
-  //     message: 'Invalid name and/or password.',
-  //     buttons: ['OK']
-  //   });
-
-  //   await loginFail.present();
-  // }
 }

@@ -22,17 +22,7 @@ export class HomePage implements OnInit {
     private zone: NgZone,
     private event: Events,
     private routingService: AppRoutingPreloaderService
-  ) {
-    // this.eventSubscribe();
-    
-    // if (this.datahandler.eventCaller !== undefined) {
-    //   this.datahandler.eventCreator(this.datahandler.eventCaller[0], this.datahandler.eventCaller[1]);
-    // }
-
-    // if (this.datahandler.eventCtr == 0 && this.datahandler.eventCaller !== undefined) {
-    //   this.datahandler.eventCreator('home', 'login success');
-    // }
-  }
+  ) { }
 
   ngOnInit() {
     if ((window.localStorage.getItem('user.name') === null)
@@ -42,59 +32,4 @@ export class HomePage implements OnInit {
       return this.nav.navigateForward('/login');
     }
   }
-
-  ngOnDestroy() {
-    console.log('destroy home');
-  }
-
-  // eventSubscribe() {
-  //   this.event.subscribe('home', (type) => {
-  //     console.log('sub home');
-  //     if (type == 'login success') {
-  //       this.login();
-  //     } else if (type == 'already login') {
-  //       this.alreadyLogged();
-  //     } else {
-  //       this.updated();
-  //     }
-  //   });
-  // }
-
-  // eventUnsubscribe() {
-  //   console.log('unsub home');
-  //   this.event.unsubscribe('home');
-  // }
-
-  // async login() {
-  //   const alert = await this.alert.create({
-  //     header: 'Message',
-  //     // subHeader: 'Subtitle',
-  //     message: 'You are now logged in.',
-  //     buttons: ['OK']
-  //   });
-
-  //   return alert.present();
-  // }
-
-  // async alreadyLogged() {
-  //   const loggedin = await this.alert.create({
-  //     header: 'Message',
-  //     // subHeader: 'Subtitle',
-  //     message: 'You are already logged in.',
-  //     buttons: ['OK']
-  //   });
-
-  //   return loggedin.present();
-  // }
-
-  // async updated() {
-  //   const updated = await this.alert.create({
-  //     header: 'Message',
-  //     // subHeader: 'Subtitle',
-  //     message: 'Profile updated successfully.',
-  //     buttons: ['OK']
-  //   });
-
-  //   return updated.present();
-  // }
 }

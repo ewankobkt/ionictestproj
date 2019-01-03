@@ -14,8 +14,6 @@ export class DatahandlerService {
   name: any;
   data: any;
   update: any = [];
-  eventCaller: any;
-  eventCtr: any = 0;
 
   constructor(
     private http: HttpClient,
@@ -57,9 +55,7 @@ export class DatahandlerService {
   }
 
   eventCreator(page, eventType) {
-    // this.eventCtr = 0;
     this.event.publish(page, eventType);
-    // this.eventCaller = undefined;
   }
 
   getName() {

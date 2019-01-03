@@ -48,7 +48,6 @@ export class AppComponent {
 
   eventSubscribe() {
     this.event.subscribe('login', (type) => {
-      console.log('sub login');
       if (type == 'not logged') {
         this.notLogged();
       } else if (type == 'logout') {
@@ -59,7 +58,6 @@ export class AppComponent {
     });
 
     this.event.subscribe('home', (type) => {
-      console.log('sub home');
       if (type == 'login success') {
         this.login();
       } else if (type == 'already login') {
