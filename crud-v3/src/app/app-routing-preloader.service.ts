@@ -29,7 +29,6 @@ export class AppRoutingPreloaderService implements PreloadingStrategy {
   }
 
   preloadRoute(path: string): Promise<void> {
-    console.log('preload');
     return new Promise<void>((resolve) => {
       if (this.routesToPreload && this.routesToPreload.length > 0) {
         const routeToPreload: RouteToPreload = this.routesToPreload.find((filterRouteToPreload: RouteToPreload) => filterRouteToPreload.routePath === path);

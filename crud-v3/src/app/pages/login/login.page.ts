@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { DatahandlerService } from '../datahandler.service';
-import { AppRoutingPreloaderService } from '../app-routing-preloader.service';
+import { DatahandlerService } from '../../libraries/datahandler.service';
+import { AppRoutingPreloaderService } from '../../app-routing-preloader.service';
 import { Router } from '@angular/router';
 import { NavController, LoadingController, Events, AlertController } from '@ionic/angular';
 

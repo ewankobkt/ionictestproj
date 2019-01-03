@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
-import { DatahandlerService } from '../datahandler.service';
-import { AppRoutingPreloaderService } from '../app-routing-preloader.service';
+import { DatahandlerService } from '../../libraries/datahandler.service';
+import { AppRoutingPreloaderService } from '../../app-routing-preloader.service';
 import { Router } from '@angular/router';
 import { AlertController, NavController, Events } from '@ionic/angular';
 
@@ -27,7 +27,6 @@ export class HomePage implements OnInit {
   ngOnInit() {
     if ((window.localStorage.getItem('user.name') === null)
       && (window.localStorage.getItem('user.password') === null)) {
-      // this.datahandler.eventCaller = ['login', 'not logged'];
       this.datahandler.eventCreator('login', 'not logged');
       return this.nav.navigateForward('/login');
     }

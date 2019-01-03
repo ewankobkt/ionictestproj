@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DatahandlerService } from '../datahandler.service';
+import { DatahandlerService } from '../../libraries/datahandler.service';
 import { Router } from '@angular/router';
 import { NavController, Events, AlertController } from '@ionic/angular';
 

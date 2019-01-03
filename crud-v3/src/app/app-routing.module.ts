@@ -10,23 +10,24 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: './home/home.module#HomePageModule',
+    loadChildren: './pages/home/home.module#HomePageModule',
     data: { preload: true }
   },
   {
     path: 'list',
-    loadChildren: './list/list.module#ListPageModule'
+    loadChildren: './pages/list/list.module#ListPageModule'
   },
   {
     path: 'login',
-    loadChildren: './login/login.module#LoginPageModule',
+    loadChildren: './pages/login/login.module#LoginPageModule',
     data: { preload: true }
   },
   {
     path: 'profile',
-    loadChildren: './profile/profile.module#ProfilePageModule',
+    loadChildren: './pages/profile/profile.module#ProfilePageModule',
     data: { preload: true }
-  }
+  },
+  { path: 'angelo', loadChildren: './angelo/angelo.module#AngeloPageModule' }
 ];
 
 @NgModule({

@@ -1,8 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Events } from '@ionic/angular';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
-import { AppRoutingPreloaderService } from './app-routing-preloader.service';
 
 const WEB = environment.web;
 
@@ -18,8 +17,7 @@ export class DatahandlerService {
   constructor(
     private http: HttpClient,
     private event: Events,
-    private zone: NgZone,
-    private routingService: AppRoutingPreloaderService
+    private zone: NgZone
   ) { }
 
   getData(url) {
@@ -48,10 +46,6 @@ export class DatahandlerService {
     header.append('Content-type', 'application/x-www-form-urlencoded');
 
     return this.http.post(`${WEB}/${url}`, form, { headers: header });
-  }
-
-  async loadModule(page) {
-    await this.routingService.preloadRoute(page);
   }
 
   eventCreator(page, eventType) {
