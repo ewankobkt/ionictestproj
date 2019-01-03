@@ -57,10 +57,9 @@ export class DatahandlerService {
   }
 
   eventCreator(page, eventType) {
-    console.log(page);
-    this.eventCtr = 0;
+    // this.eventCtr = 0;
     this.event.publish(page, eventType);
-    this.eventCaller = undefined;
+    // this.eventCaller = undefined;
   }
 
   getName() {

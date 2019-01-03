@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
   name: any;
   password: any;
   data: any;
+  msubscribe: any = false;
 
   constructor(
     private datahandler: DatahandlerService,
@@ -23,34 +24,13 @@ export class LoginPage implements OnInit {
     private zone: NgZone,
     private event: Events,
     private routingService: AppRoutingPreloaderService
-  ) {
-    this.event.subscribe('login', (type) => {
-      console.log(type);
-      if (this.datahandler.eventCtr == 0) {
-        if (type == 'not logged') {
-          this.notLogged();
-        } else if (type == 'logout') {
-          this.logoutLoad();
-        } else {
-          this.loginFail();
-        }
-
-        this.datahandler.eventCtr = 1;
-      }
-    });
-
-    if (this.datahandler.eventCaller !== undefined) {
-      this.datahandler.eventCreator(this.datahandler.eventCaller[0], this.datahandler.eventCaller[1]);
-      console.log(this.datahandler.eventCaller);
-    }
-  }
+  ) { }
 
   ngOnInit() {
     if ((window.localStorage.getItem('user.name') !== null)
       && (window.localStorage.getItem('user.password') !== null)) {
       this.nav.navigateForward('/home');
-      this.datahandler.eventCaller = ['home', 'already login'];
-      // this.datahandler.eventCreator('home', 'already login');
+      this.datahandler.eventCreator('home', 'already login');
     }
   }
 
@@ -58,10 +38,27 @@ export class LoginPage implements OnInit {
     console.log('destroy login');
   }
 
+  // eventSubscribe() {
+  //   this.event.subscribe('login', (type) => {
+  //     console.log('sub login');
+  //     if (type == 'not logged') {
+  //       this.notLogged();
+  //     } else if (type == 'logout') {
+  //       this.logoutLoad();
+  //     } else {
+  //       this.loginFail();
+  //     }
+  //   });
+  // }
+
+  eventUnsubscribe() {
+    console.log('unsub login');
+    this.event.unsubscribe('login');
+  }
+
   login(form: any) {
     if ((form.name == null || form.name == '') || (form.password == null || form.password == '')) {
-      // return this.datahandler.eventCreator('login', 'login failed');
-      return this.datahandler.eventCaller = ['login', 'login failed'];
+      return this.datahandler.eventCreator('login', 'login failed');
     }
 
     this.datahandler
@@ -73,61 +70,67 @@ export class LoginPage implements OnInit {
           this.name = '';
           this.password = '';
           this.datahandler.data = form;
-          // this.datahandler.eventCaller = ['home', 'login success'];
           this.datahandler.eventCreator('home', 'login success');
           return this.nav.navigateForward('/home');
         } else {
-          console.log('asd');
           return this.datahandler.eventCreator('login', 'login failed');
         }
       });
   }
 
-  async logoutLoad() {
-    const logoutLoad = await this.load.create({
-      message: 'Logging out',
-      duration: 2000
-    });
+  // async logoutLoad() {
+  //   // this.eventUnsubscribe();
 
-    await logoutLoad.present();
+  //   const logoutLoad = await this.load.create({
+  //     message: 'Logging out',
+  //     duration: 2000
+  //   });
 
-    var self = this;
+  //   await logoutLoad.present();
 
-    window.setTimeout(function () {
-      return self.logout();
-    }, 2000);
-  }
+  //   var self = this;
 
-  async notLogged() {
-    const notLogged = await this.alert.create({
-      header: 'Message',
-      // subHeader: 'Subtitle',
-      message: 'You are not logged in.',
-      buttons: ['OK']
-    });
+  //   window.setTimeout(function () {
+  //     return self.logout();
+  //   }, 2000);
+  // }
 
-    await notLogged.present();
-  }
+  // async notLogged() {
+  //   // this.eventUnsubscribe();
 
-  async logout() {
-    const logout = await this.alert.create({
-      header: 'Message',
-      // subHeader: 'Subtitle',
-      message: 'You logged out successfully.',
-      buttons: ['OK']
-    });
+  //   const notLogged = await this.alert.create({
+  //     header: 'Message',
+  //     // subHeader: 'Subtitle',
+  //     message: 'You are not logged in.',
+  //     buttons: ['OK']
+  //   });
 
-    await logout.present();
-  }
+  //   await notLogged.present();
+  // }
 
-  async loginFail() {
-    const loginFail = await this.alert.create({
-      header: 'Alert',
-      // subHeader: 'Subtitle',
-      message: 'Invalid name and/or password.',
-      buttons: ['OK']
-    });
+  // async logout() {
+  //   // this.eventUnsubscribe();
 
-    await loginFail.present();
-  }
+  //   const logout = await this.alert.create({
+  //     header: 'Message',
+  //     // subHeader: 'Subtitle',
+  //     message: 'You logged out successfully.',
+  //     buttons: ['OK']
+  //   });
+
+  //   await logout.present();
+  // }
+
+  // async loginFail() {
+  //   // this.eventUnsubscribe();
+
+  //   const loginFail = await this.alert.create({
+  //     header: 'Alert',
+  //     // subHeader: 'Subtitle',
+  //     message: 'Invalid name and/or password.',
+  //     buttons: ['OK']
+  //   });
+
+  //   await loginFail.present();
+  // }
 }

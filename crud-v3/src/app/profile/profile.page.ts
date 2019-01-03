@@ -20,7 +20,7 @@ export class ProfilePage implements OnInit {
     private nav: NavController,
     private event: Events
   ) {
-    this.event.subscribe('profile', (type) => {
+    this.event.subscribe('profile', () => {
       this.name = window.localStorage.getItem('user.name');
       this.password = window.localStorage.getItem('user.password');
     });
@@ -29,7 +29,7 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     if ((window.localStorage.getItem('user.name') === null)
       && (window.localStorage.getItem('user.password') === null)) {
-      this.datahandler.eventCaller = ['login', 'not logged'];
+      this.datahandler.eventCreator('login', 'not logged');
       return this.nav.navigateForward('/login');
     } else {
       this.datahandler.getName();

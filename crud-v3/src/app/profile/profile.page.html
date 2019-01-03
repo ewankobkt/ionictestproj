@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-back-button></ion-back-button>
+    <ion-label floating padding [routerDirection]="'root'" [routerLink]="'/home'">
+      <ion-icon slot="start" [name]="'arrow-back'"></ion-icon>
+      Home
+    </ion-label>
     <ion-title>Profile</ion-title>
   </ion-toolbar>
 </ion-header>

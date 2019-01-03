@@ -13,6 +13,7 @@ export class HomePage implements OnInit {
   data;
   name;
   id;
+  msubscribe: any = false;
 
   constructor(
     private datahandler: DatahandlerService,
@@ -22,38 +23,22 @@ export class HomePage implements OnInit {
     private event: Events,
     private routingService: AppRoutingPreloaderService
   ) {
-    this.event.subscribe('home', (type) => {
-      if (this.datahandler.eventCtr == 0) {
-        if (type == 'login success') {
-          this.login();
-        } else if (type == 'already login') {
-          this.alreadyLogged();
-        } else {
-          this.updated();
-        }
-
-        this.datahandler.eventCtr = 1;
-      }
-    });
+    // this.eventSubscribe();
     
-    if (this.datahandler.eventCaller !== undefined) {
-      this.datahandler.eventCreator(this.datahandler.eventCaller[0], this.datahandler.eventCaller[1]);
-    }
+    // if (this.datahandler.eventCaller !== undefined) {
+    //   this.datahandler.eventCreator(this.datahandler.eventCaller[0], this.datahandler.eventCaller[1]);
+    // }
 
-    if (this.datahandler.eventCtr == 0 && this.datahandler.eventCaller !== undefined) {
-      this.datahandler.eventCreator('home', 'login success');
-    }
-
-    console.log(this.datahandler.eventCaller);
+    // if (this.datahandler.eventCtr == 0 && this.datahandler.eventCaller !== undefined) {
+    //   this.datahandler.eventCreator('home', 'login success');
+    // }
   }
 
   ngOnInit() {
     if ((window.localStorage.getItem('user.name') === null)
       && (window.localStorage.getItem('user.password') === null)) {
-      // this.datahandler.page = 'login';
-      // this.datahandler.eventType = 'not logged';
-      // this.datahandler.eventCreator('login', 'not logged');
-      this.datahandler.eventCaller = ['login', 'not logged'];
+      // this.datahandler.eventCaller = ['login', 'not logged'];
+      this.datahandler.eventCreator('login', 'not logged');
       return this.nav.navigateForward('/login');
     }
   }
@@ -62,36 +47,54 @@ export class HomePage implements OnInit {
     console.log('destroy home');
   }
 
-  async login() {
-    const alert = await this.alert.create({
-      header: 'Message',
-      // subHeader: 'Subtitle',
-      message: 'You are now logged in.',
-      buttons: ['OK']
-    });
+  // eventSubscribe() {
+  //   this.event.subscribe('home', (type) => {
+  //     console.log('sub home');
+  //     if (type == 'login success') {
+  //       this.login();
+  //     } else if (type == 'already login') {
+  //       this.alreadyLogged();
+  //     } else {
+  //       this.updated();
+  //     }
+  //   });
+  // }
 
-    return alert.present();
-  }
+  // eventUnsubscribe() {
+  //   console.log('unsub home');
+  //   this.event.unsubscribe('home');
+  // }
 
-  async alreadyLogged() {
-    const loggedin = await this.alert.create({
-      header: 'Message',
-      // subHeader: 'Subtitle',
-      message: 'You are already logged in.',
-      buttons: ['OK']
-    });
+  // async login() {
+  //   const alert = await this.alert.create({
+  //     header: 'Message',
+  //     // subHeader: 'Subtitle',
+  //     message: 'You are now logged in.',
+  //     buttons: ['OK']
+  //   });
 
-    return loggedin.present();
-  }
+  //   return alert.present();
+  // }
 
-  async updated() {
-    const updated = await this.alert.create({
-      header: 'Message',
-      // subHeader: 'Subtitle',
-      message: 'Profile updated successfully.',
-      buttons: ['OK']
-    });
+  // async alreadyLogged() {
+  //   const loggedin = await this.alert.create({
+  //     header: 'Message',
+  //     // subHeader: 'Subtitle',
+  //     message: 'You are already logged in.',
+  //     buttons: ['OK']
+  //   });
 
-    return updated.present();
-  }
+  //   return loggedin.present();
+  // }
+
+  // async updated() {
+  //   const updated = await this.alert.create({
+  //     header: 'Message',
+  //     // subHeader: 'Subtitle',
+  //     message: 'Profile updated successfully.',
+  //     buttons: ['OK']
+  //   });
+
+  //   return updated.present();
+  // }
 }
