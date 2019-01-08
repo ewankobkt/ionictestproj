@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { DatahandlerService } from '../../libraries/datahandler.service';
-import { AppRoutingPreloaderService } from '../../app-routing-preloader.service';
 import { Router } from '@angular/router';
 import { AlertController, NavController, Events } from '@ionic/angular';
 
@@ -20,8 +19,7 @@ export class HomePage implements OnInit {
     private alert: AlertController,
     private nav: NavController,
     private zone: NgZone,
-    private event: Events,
-    private routingService: AppRoutingPreloaderService
+    private event: Events
   ) { }
 
   ngOnInit() {

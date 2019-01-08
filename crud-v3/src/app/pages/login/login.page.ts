@@ -1,6 +1,5 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { DatahandlerService } from '../../libraries/datahandler.service';
-import { AppRoutingPreloaderService } from '../../app-routing-preloader.service';
 import { Router } from '@angular/router';
 import { NavController, LoadingController, Events, AlertController } from '@ionic/angular';
 
@@ -22,8 +21,7 @@ export class LoginPage implements OnInit {
     private nav: NavController,
     private load: LoadingController,
     private zone: NgZone,
-    private event: Events,
-    private routingService: AppRoutingPreloaderService
+    private event: Events
   ) { }
 
   ngOnInit() {
@@ -32,11 +30,6 @@ export class LoginPage implements OnInit {
       this.nav.navigateForward('/home');
       this.datahandler.eventCreator('home', 'already login');
     }
-  }
-
-  eventUnsubscribe() {
-    console.log('unsub login');
-    this.event.unsubscribe('login');
   }
 
   login(form: any) {

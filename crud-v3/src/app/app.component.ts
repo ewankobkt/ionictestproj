@@ -36,6 +36,9 @@ export class AppComponent {
     private statusBar: StatusBar,
     private nav: NavController
   ) {
+    // if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+    //     WebView.setWebContentsDebuggingEnabled(true);
+    // }
     this.initializeApp();
     this.event.eventSubscribe();
   }

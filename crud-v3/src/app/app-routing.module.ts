@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppRoutingPreloaderService } from './app-routing-preloader.service';
 
 const routes: Routes = [
   {
@@ -27,11 +26,14 @@ const routes: Routes = [
     loadChildren: './pages/profile/profile.module#ProfilePageModule',
     data: { preload: true }
   },
-  { path: 'angelo', loadChildren: './angelo/angelo.module#AngeloPageModule' }
+  {
+    path: 'database-sample',
+    loadChildren: './pages/database-sample/database-sample.module#DatabaseSamplePageModule'
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: AppRoutingPreloaderService })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}
