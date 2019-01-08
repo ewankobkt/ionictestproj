@@ -11,85 +11,103 @@ export class DatabaseService {
     private sqlite: SQLite
   ) { }
 
+  checkDatabase() {
+    let check = false;
+    const dbOpen = this.sqlite.create({
+      name: 'citestproj.db',
+      location: 'default'
+    });
+
+    dbOpen.then((db:SQLiteObject) => {
+      db.executeSql('select * from sqlite_master WHERE type=\'table\'', [])
+        .then((data) => {
+          console.log('Executed SQL! Show table!');
+
+          if (data.rows.length != 0) {
+            check = true;
+          }
+        })
+        .catch(e => console.log(e));
+    });
+
+    return check;
+  }
+
   createDatabase() {
     const dbCreate = this.sqlite.create({
       name: 'citestproj.db',
       location: 'default'
     });
+
+    return dbCreate;
   }
 
-  async createTable() {
+  createTable(table, column_name, column_type, values) {
     let self = this;
     const dbOpen = this.sqlite.create({
       name: 'citestproj.db',
       location: 'default'
     });
 
-    let tests: any = [];
     let tables: any = [];
     let existTable: any = false;
 
     if (dbOpen != null) {
-      await dbOpen.then((db: SQLiteObject) => {
+      dbOpen.then((db: SQLiteObject) => {
         db.executeSql('select * from sqlite_master WHERE type=\'table\'', [])
           .then((data) => {
             console.log('Executed SQL! Show table!');
 
             if (data.rows.length != 0) {
               for (var i = 0; i < data.rows.length; i++) {
-                tables.push(data.rows.item(i));
+                if (data.rows.item(i)['name'] == table) {
+                  existTable = true;
+                }
               }
-
-              existTable = true;
             }
           })
           .catch(e => console.log(e));
 
         if (!existTable) {
-          let createSql = "CREATE TABLE `tests` (" +
-            "`id` INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            "`name` varchar(255) DEFAULT NULL, " +
-            "`salt` varchar(64) DEFAULT NULL, " +
-            "`password` varchar(64) DEFAULT NULL, " +
-            "`status` int(1) DEFAULT '1', " +
-            "`created_at` datetime DEFAULT NULL, " +
-            "`updated_at` datetime DEFAULT NULL)";
+          let createSql = "CREATE TABLE `" + table + "` (";
+
+          if (column_name.length != column_type.length) {
+            return false;
+          }
+
+          for (var i = 0; i < column_name.length; i++) {
+            createSql += "`" + column_name[i] + "` " + column_type[i];
+            if (i+1 != column_name.length) {
+              createSql += ", ";
+            }
+          }
+
+          createSql += ")";
 
           db.executeSql(createSql, [])
             .then(() => {
-              console.log('Executed SQL! Created table `tests`!');
+              console.log('Executed SQL! Created table '+ table + '!');
             })
             .catch(e => console.log(e));
 
-          let insertSql = "insert into `tests`(`id`,`name`,`salt`,`password`,`status`,`created_at`,`updated_at`) " + 
-            "values (?, ?, ?, ?, ?, ?, ?)";
+          if (values.length > 0) {
+            let insertSql = "insert into `" + table + "` (";
 
-          let values = [
-            1,
-            'angelo',
-            '60QmjnaqYyb6nrai',
-            '3b06d649a689e45907c66164c41ee34614c3a010',
-            1,
-            '2018-12-20 12:21:43',
-            '2019-01-04 02:57:01'
-          ];
+            for (var i = 0; i < column_name.length; i++) {
+              insertSql += "`" + column_name[i] + "`";
+              if (i+1 != column_name.length) {
+                insertSql += ", ";
+              }
+            }
 
-          db.executeSql(insertSql, values)
-            .then(() => {
-              console.log('Executed SQL! Inserted values on `tests!`')
+            insertSql += ") values (?, ?, ?, ?, ?, ?, ?)";
 
-            })
-            .catch(e => console.log(e));
-
-          // db.executeSql('select * from tests', [])
-          //   .then((data) => {
-          //     console.log('Executed SQL! Select table `tests`!');
-
-          //     for (var i = 0; i < data.rows.length; i++) {
-          //       tests.push(data.rows.item(i));
-          //     }
-          //   })
-          //   .catch(e => console.log(e));
+            db.executeSql(insertSql, values)
+              .then(() => {
+                console.log('Executed SQL! Inserted values on ' + table + '!');
+              })
+              .catch(e => console.log(e));
+          }
         } else {
           console.log('Table already existed!');
         }
@@ -98,5 +116,9 @@ export class DatabaseService {
     } else {
       console.log('Failed to create/open database');
     }
+  }
+
+  async login(name, password) {
+    // console.log
   }
 }
